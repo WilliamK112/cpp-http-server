@@ -1,0 +1,21 @@
+#include "http/response.hpp"
+
+#include <sstream>
+
+namespace http {
+
+std::string HttpResponse::ToHttpString() const {
+  std::ostringstream oss;
+  oss << "HTTP/1.1 " << status_code << ' ' << status_text << "\r\n";
+
+  for (const auto& [key, value] : headers) {
+    oss << key << ": " << value << "\r\n";
+  }
+
+  oss << "Content-Length: " << body.size() << "\r\n";
+  oss << "\r\n";
+  oss << body;
+  return oss.str();
+}
+
+}  // namespace http
