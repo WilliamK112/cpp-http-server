@@ -233,3 +233,37 @@ Saved output:
 I separated concerns into small modules: `HttpRequest`, `HttpResponse`, `Router`, `ThreadPool`, `StaticFileHandler`, `Logger`, and `Config`. That keeps the implementation easy to reason about and easy to explain in interviews. On correctness and safety, the server returns 400 for malformed requests, 404 for missing routes/files, and blocks path traversal attempts for static files.
 
 For performance, I added benchmark automation with `wrk`/`ab`/`curl` fallback and used those runs to guide improvements. One concrete change was adding a small static-file cache to reduce repeated disk reads under load. Keep-alive and deeper HTTP compliance are intentionally deferred so this version stays clean and interview-friendly while still demonstrating concurrency, security basics, and measurement-driven optimization.”
+
+## Architecture Overview
+
+This project follows a modular structure with clear separation between interface, execution logic, and outputs/artifacts. The exact implementation details vary by repository, but the intent is to keep core logic testable and easy to extend.
+
+
+## Project Structure
+
+```text
+.
+├─ src/            # Core source code (if present)
+├─ public/         # Static assets / UI resources (if present)
+├─ docs/           # Documentation and notes (if present)
+├─ scripts/        # Utility scripts (if present)
+├─ test/           # Tests (if present)
+└─ README.md       # Project overview
+```
+
+> Folder names vary by project; this section describes the intended organization pattern.
+
+
+## Quick Start
+
+1. Clone the repository
+2. Install dependencies (if any)
+3. Run the project using its local start/build instructions
+
+If this repo is a library or static project, refer to scripts/config files for exact commands.
+
+
+## Current Scope
+
+This repository reflects the project’s current implementation and active direction. Planned improvements are tracked through issues/commits and may evolve over time.
+
