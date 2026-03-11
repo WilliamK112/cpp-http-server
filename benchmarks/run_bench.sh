@@ -13,7 +13,7 @@ OUT_FILE="$OUT_DIR/bench-$TS.txt"
   echo
 
   if command -v wrk >/dev/null 2>&1; then
-    echo "## wrk /"
+    echo "## wrk / (keep-alive on by default)"
     wrk -t4 -c64 -d10s "$BASE_URL/"
     echo
 
@@ -29,20 +29,24 @@ OUT_FILE="$OUT_DIR/bench-$TS.txt"
     wrk -t4 -c64 -d10s "$BASE_URL/static/index.html"
     echo
   elif command -v ab >/dev/null 2>&1; then
-    echo "## ab /"
+    echo "## ab / (no keep-alive)"
     ab -n 5000 -c 100 "$BASE_URL/"
     echo
 
-    echo "## ab /hello"
-    ab -n 5000 -c 100 "$BASE_URL/hello"
+    echo "## ab / (keep-alive enabled)"
+    ab -k -n 5000 -c 100 "$BASE_URL/"
     echo
 
-    echo "## ab /health"
-    ab -n 5000 -c 100 "$BASE_URL/health"
+    echo "## ab /hello (keep-alive enabled)"
+    ab -k -n 5000 -c 100 "$BASE_URL/hello"
     echo
 
-    echo "## ab /static/index.html"
-    ab -n 5000 -c 100 "$BASE_URL/static/index.html"
+    echo "## ab /health (keep-alive enabled)"
+    ab -k -n 5000 -c 100 "$BASE_URL/health"
+    echo
+
+    echo "## ab /static/index.html (keep-alive enabled)"
+    ab -k -n 5000 -c 100 "$BASE_URL/static/index.html"
     echo
   else
     echo "## curl fallback"

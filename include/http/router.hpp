@@ -13,11 +13,12 @@ using Handler = std::function<HttpResponse(const HttpRequest&)>;
 
 class Router {
  public:
-  void RegisterRoute(const std::string& path, Handler handler);
+  void RegisterRoute(const std::string& path, Handler handler);  // backward-compatible GET helper
+  void RegisterRoute(const std::string& method, const std::string& path, Handler handler);
   HttpResponse Route(const HttpRequest& request) const;
 
  private:
-  std::unordered_map<std::string, Handler> routes_;
+  std::unordered_map<std::string, std::unordered_map<std::string, Handler>> routes_;
 };
 
 }  // namespace http

@@ -38,6 +38,31 @@ Config ParseConfig(int argc, char* argv[]) {
         config.static_dir = arg.substr(13);
       } else if (StartsWith(arg, "--host=")) {
         config.host = arg.substr(7);
+      } else if (StartsWith(arg, "--request-timeout-ms=")) {
+        const int timeout = std::stoi(arg.substr(21));
+        if (timeout > 0) {
+          config.request_timeout_ms = timeout;
+        }
+      } else if (StartsWith(arg, "--keep-alive-timeout-ms=")) {
+        const int timeout = std::stoi(arg.substr(24));
+        if (timeout > 0) {
+          config.keep_alive_timeout_ms = timeout;
+        }
+      } else if (StartsWith(arg, "--max-request-bytes=")) {
+        const int bytes = std::stoi(arg.substr(20));
+        if (bytes > 0) {
+          config.max_request_bytes = static_cast<std::size_t>(bytes);
+        }
+      } else if (StartsWith(arg, "--max-body-bytes=")) {
+        const int bytes = std::stoi(arg.substr(17));
+        if (bytes >= 0) {
+          config.max_body_bytes = static_cast<std::size_t>(bytes);
+        }
+      } else if (StartsWith(arg, "--max-requests-per-connection=")) {
+        const int n = std::stoi(arg.substr(30));
+        if (n > 0) {
+          config.max_requests_per_connection = static_cast<std::size_t>(n);
+        }
       }
     } catch (const std::exception& ex) {
       std::cerr << "[warn] Ignoring invalid argument '" << arg << "': " << ex.what() << std::endl;
